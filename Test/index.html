@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Interactivo</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <style>
+        .hidden { display: none; }
+        .visible { display: block; }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>Test de Personalidad</h1>
+        
+        <!-- Mostrar las preguntas una por una -->
+        <article v-for="(pregunta, index) in preguntas" :key="index" v-show="index === preguntaActual">
+            <h2>{{ pregunta.texto }}</h2>
+            <div v-for="(opcion, i) in pregunta.opciones" :key="i">
+                <label>
+                    <input type="radio" v-model="respuestas[index]" :value="opcion.puntos">
+                    {{ opcion.texto }}
+                </label>
+            </div>
+            <button @click="siguientePregunta" v-if="preguntaActual < preguntas.length - 1">Siguiente</button>
+            <button @click="mostrarResultado" v-if="preguntaActual === preguntas.length - 1">Finalizar Test</button>
+        </article>
+
+        <!-- Mostrar el resultado final -->
+        <article v-if="resultadoVisible">
+            <h2>Resultado del Test</h2>
+            <p>{{ obtenerResultado() }}</p>
+            <button @click="reiniciarTest">Reiniciar Test</button>
+        </article>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
